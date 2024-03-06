@@ -1,7 +1,7 @@
 ---
 title: "Lab 04 - Data Type Coercion"
-author: "Insert your name here"
-date: "Insert date here"
+author: "Nyla Williams"
+date: "3//6/2024"
 output: html_document
 ---
 
@@ -16,40 +16,156 @@ library(openintro)
 
 ### Exercise 1
 
-Remove this text, and add your answer for Exercise 1 here.
+```{r}
+c(1, 1L, "C")
+```
+
+```{r}
+## [1] 1
+```
+
+```{r}
+## [1] 1
+```
+
+The output ([1] 1)  display the number 1. they are integers therefore they are numerical data types
+
+```{r}
+## [1] "C"
+```
+
+
+```{r}
+# [1] "1" "1" "C"
+```
+creates a character vector by combining all three components. R allows various data types that are joined into a vector to conform to one unified type—in this example, character.
+
 
 ### Exercise 2
 
-Remove this text, and add your answer for Exercise 2 here.
+
+```{r}
+c(1:3, 5)
+```
+
+there are only numericals here
+```{r}
+##[1] 1 2 3
+```
+.
+```{r}
+# [1] 5
+```
+when uncommented, it is still a numerical vector
+
 
 ### Exercise 3
 
-Remove this text, and add your answer for Exercise 3 here.
+```{r}
+c(3, FALSE, T)
+```
+there are two logicals and a double.
+```{r}
+## [1] 3
+```
+
+
+```{r}
+## [1] FALSE
+```
+
+```{r}
+# [1] TRUE
+```
+logical data type
 
 ### Exercise 4
 
-Remove this text, and add your answer for Exercise 4 here.
+```{r}
+c(TRUE, as.numeric(TRUE))
+```
+there is a double and a logical
+```{r}
+## [1] TRUE
+```
+
+```{r}
+## [1] 1
+```
+
 
 ### Exercise 5
 
-Remove this text, and add your answer for Exercise 5 here.
+```{r}
+ c(NA, FALSE, as.logical(1))
+```
+
+There are all logicals
+```{r}
+## [1] NA
+```
+
+```{r}
+## [1] FALSE
+```
+
+```{r}
+## [1] TRUE
+```
+
+logicial 
+
+
+
 
 ### Exercise 6
 
-Remove this text, and add your answer for Exercise 6 here.
+```{r}
+c(1L / 0, "A")
+```
+In this code chunk we see a double, a numerical, and a character
+```{r}
+## [1] 1
+```
+
+```{r}
+## [1] 0
+```
+
+```{r}
+## [1] Inf
+```
+
+```{r}
+## [1] "A"
+```
+
+it is a character
 
 ### Exercise 7
 
-Remove this text, and add your answer for Exercise 7 here.
+```{r}
+glimpse(earthquakes)
+```
+
 
 ### Exercise 8
 
-Remove this text, and add your answer for Exercise 8 here.
+magnitude and depth
 
 ### Exercise 9
 
-Remove this text, and add your answer for Exercise 9 here.
+if we coerced "year" it may lead to some visualization issues; when plotting the year on the x-axis,it will be ordered incorrectly 
 
 ### Exercise 10
 
-Remove this text, and add your answer for Exercise 9 here.
+```{r}
+earthquakes %>%
+  mutate(major = case_when(
+    richter > 7.5 ~ TRUE,
+    TRUE ~ FALSE
+  )) %>%
+  mutate(major = as.numeric(major)) %>%
+  filter(major == 1)
+```
+ From what we see here, there are 29 earthquakes in this data set.
