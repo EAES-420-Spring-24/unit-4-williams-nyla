@@ -1,7 +1,7 @@
 ---
 title: "Homework 04 - Data Classes w. forcats & lubridate"
-author: "Insert your name here"
-date: "Insert date here"
+author: "Nyla Williams"
+date: "3/11/2024"
 output: html_document
 ---
 
@@ -18,36 +18,213 @@ library(glue)
 
 ### Exercise 1
 
-Remove this text, and add your answer for Exercise 1 here.
+```{r}
+#numeric vector
+numeric <- c(1, 2, 3, 4, 5)
+
+#character vector
+character <- c("pizza", "iphone", "pineapple", "date", "science")
+
+#mixed vector
+mixed <- c(1, "pinapple", 3.14, "freedom", 5)
+
+# Reporting the "typeof()" and "class()" of each vector
+typeof_numeric <- typeof(numeric)
+class_numeric <- class(numeric)
+
+typeof_character <- typeof(character)
+class_character <- class(character)
+
+typeof_mixed <- typeof(mixed)
+class_mixed <- class(mixed)
+
+typeof_numeric
+class_numeric
+typeof_character
+class_character
+typeof_mixed
+class_mixed
+
+```
+
 
 ### Exercise 2
 
-Remove this text, and add your answer for Exercise 2 here.
+```{r}
+#numeric vector
+numeric <- c(1, 2, 3, 4, 5)
+
+#character vector
+character <- c("pizza", "iphone", "pineapple", "date", "science")
+
+#mixed vector
+mixed <- c(1, "pinapple", 3.14, "freedom", 5)
+
+#created a data frame- binded the vectors
+data_frame <- bind_cols("numeric" = numeric, "character" = character, "mixed" = mixed)
+
+
+data_frame
+
+```
+
+
 
 ### Exercise 3
 
-Remove this text, and add your answer for Exercise 3 here.
+```{r}
+#numeric vector
+numeric <- c(1, 2, 3, 4, 5)
+
+#character vector
+character <- c("cat", "butterflies", "lemons", "music", "radio")
+
+#mixed vector
+mixed <- c(2, "fairy", 5, "lemonade")
+
+combined <- combined <- bind_cols(numeric, character, mixed)
+```
+
+The number of vectors are mismatched therefore R is unable to run the entire code.
+
 
 ### Exercise 4
 
-Remove this text, and add your answer for Exercise 4 here.
+```{r}
+
+#numeric vector
+numeric <- c(1, 2, 3, 4, 5)
+
+#character vector
+character <- c("cat", "butterflies", "lemons", "music", "radio")
+
+#mixed vector
+mixed <- c(2, "fairy", 5, "lemonade")
+
+# Create the list with specified vector names
+my_list <- list("numeric" = numeric, "character" = character, "mixed" = mixed)
+
+# Print the list
+my_list
+```
+
 
 ### Exercise 5
 
-Remove this text, and add your answer for Exercise 5 here.
+```{r}
+earthquakes %>% 
+  ggplot(aes(x = month)) +
+  geom_bar() +
+  labs(x = "Month of the year", y = "Earthquake count")
+```
+The problem arises in the ordering of the months of the year
 
 ### Exercise 6
 
-Remove this text, and add your answer for Exercise 6 here.
+```{r}
+earthquakes %>% 
+  ggplot(aes(x = fct_infreq(month))) +
+  geom_bar() +
+  labs(x = "Month of the year", y = "Earthquake count")
+```
+
+The forecats function being used is the fct_infreq(month) function, of which the month variable gets reordered by frequency. This does not allow for the data to be represented chronologically.
+
+```{r}
+earthquakes %>% 
+  ggplot(aes(x = fct_rev(month))) +
+  geom_bar() +
+  labs(x = "Month of the year", y = "Earthquake count")
+```
+
+This forecats function fct_rev(month), works the same way as the previous function, however the months are both ordered by frequency and then are reversed 
+
+```{r}
+earthquakes %>% 
+  ggplot(aes(x = fct_inorder(month))) +
+  geom_bar() +
+  labs(x = "Month of the year", y = "Earthquake count")
+```
+This forecats function -fct_inorder(month)- will display the months in the order they occur in the earthquakes dataset in the ggplot visualization.
+
+
+```{r}
+earthquakes %>% 
+  ggplot(aes(x = month %>% fct_infreq() %>% fct_rev())) +
+  geom_bar() +
+  labs(x = "Month of the year", y = "Earthquake count")
+```
+
+These combined forecats functions "fct_infreq() %>% fct_rev()" will first order the months by increasing frequency of earthquakes and then will reverse this order, which will result in a ggplot visualization with the most frequent months displayed first.
+
+```{r}
+earthquakes %>% 
+  mutate(month = fct_recode(month,
+                            "1" = "January",
+                            "2" = "February",
+                            "3" = "March",
+                            "4" = "April",
+                            "5" = "May",
+                            "6" = "June",
+                            "7" = "July",
+                            "8" = "August",
+                            "9" = "September",
+                            "10" = "October",
+                            "11" = "November",
+                            "12" = "December")) %>% 
+  ggplot(aes(x = factor(as.numeric(month)))) +
+  geom_bar() +
+  labs(x = "Month of the year", y = "Earthquake count")
+```
+
+Here we see that fct_recode() will rename the factor levels of month with their corresponding month names. However, there is a potential problem with the plot as the factor(as.numeric(month)) may not allow for the appropriate order of the months. 
+
+
 
 ### Exercise 7
 
-Remove this text, and add your answer for Exercise 7 here.
+```{r}
+earthquakes_new <- earthquakes %>% 
+  mutate(date = glue("{year} {month} {day}")) %>% 
+  relocate(date)
+print(earthquakes_new)
+```
+- The mutate() function is used in the second line of code to generate a new variable named date. For each row, the year, month, and day columns are combined into a single string using the glue() function to interpolate the data. This creates the variable.
+
+- The new date column is moved to the first place in the data frame by the third line, which makes it the first column you see when examining the data frame, using the relocate() method.
+
+- After that, the changed data frame is output by the print() function so you can view the changes.
+
+- Utilizing inline code we see that the data is a character class type and data type
+
+
+ 
 
 ### Exercise 8
 
-Remove this text, and add your answer for Exercise 8 here.
+```{r}
+# Scatter plot for earthquakes in 1933
+earthquakes_1933 <- earthquakes_new %>%
+  filter(year == 1933) %>%
+  ggplot(aes(x = date, y = richter)) +
+  geom_point() +
+  labs(x = "Date", y = "Richter Scale Value")
+
+# Printing plot
+print(earthquakes_1933)
+
+```
+Problem : ggplot might not be able to correctly read and plot the dates along the x-axis if the date variable is not in a date format that R recognizes (such Date or POSIXct). This could lead to a plot in which the dates are not arranged chronologically
+
 
 ### Exercise 9
 
-Remove this text, and add your answer for Exercise 9 here.
+```{r}
+
+earthquakes %>% 
+  mutate(date = ymd(glue("{year} {month} {day}"))) %>% 
+  relocate(date) %>% 
+  ggplot(aes(x = date, y = richter)) +
+  geom_point()
+
+```
