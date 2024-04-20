@@ -151,7 +151,7 @@ glimpse(earthquakes)
 
 ### Exercise 8
 
-magnitude and depth
+magnitude and depth-.5
 
 ### Exercise 9
 
